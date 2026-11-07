@@ -93,7 +93,7 @@ export function AuthViews({
   const [profileName, setProfileName] = useState(currentUser?.name || '');
   const [profilePhone, setProfilePhone] = useState(currentUser?.phone || '');
   const [prefChannel, setPrefChannel] = useState<'sms_visual' | 'email_escrito' | 'portal'>(
-    currentUser?.preferredChannel || 'sms_visual'
+    currentUser?.preferredChannel || 'email_escrito'
   );
   const [profileErrors, setProfileErrors] = useState<string[]>([]);
   const [profileSuccessNotice, setProfileSuccessNotice] = useState<string | null>(null);

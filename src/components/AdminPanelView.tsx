@@ -1426,7 +1426,7 @@ export function AdminPanelView({
                         {/* Canal Preferido */}
                         <td className="p-4 text-center whitespace-nowrap">
                           <span className="px-2.5 py-1 rounded-lg bg-[#001426] text-slate-200 text-[10px] font-mono border border-[#002f52] uppercase">
-                            {usr.preferredChannel?.replace('_', ' ') || 'SMS VISUAL'}
+                            {usr.preferredChannel?.replace('_', ' ') || 'EMAIL ESCRITO'}
                           </span>
                         </td>
 

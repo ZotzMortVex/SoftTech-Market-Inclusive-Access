@@ -45,7 +45,7 @@ export function CheckoutFlow({
   const [city, setCity] = useState('Ciudad de México');
   const [contactNumber, setContactNumber] = useState(currentUser?.phone || '+52 55 9876 5432');
   const [deliveryNotes, setDeliveryNotes] = useState('Por favor no llamar por teléfono. Tocar timbre luminoso o enviar SMS.');
-  const [shippingChannel, setShippingChannel] = useState<'sms_visual' | 'email_escrito' | 'dashboard'>('sms_visual');
+  const [shippingChannel, setShippingChannel] = useState<'sms_visual' | 'email_escrito' | 'dashboard'>('email_escrito');
   const [acceptNoCalls, setAcceptNoCalls] = useState(true);
 
   // Validation feedback
