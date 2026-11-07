@@ -1,0 +1,6 @@
+{
+  "name": "SoftTech Market Inclusive Access",
+  "description": "Plataforma de comercio tecnológico accesible 100% visual y cero audio para personas sordas e hipoacúsicas, con catálogo certificado, soporte escrito y navegación inclusiva.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
