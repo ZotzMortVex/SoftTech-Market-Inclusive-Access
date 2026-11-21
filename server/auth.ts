@@ -296,7 +296,7 @@ authRouter.post("/register", async (request, response) => {
       email,
       role: "user",
       phone,
-      preferredChannel: "sms_visual",
+      preferredChannel: "email_escrito",
       active: true,
       registeredDate: new Date().toLocaleDateString("es-CO"),
       totalOrdersCount: 0,

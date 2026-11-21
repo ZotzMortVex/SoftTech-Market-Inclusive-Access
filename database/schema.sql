@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash VARCHAR(255) NOT NULL,
   role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
   phone VARCHAR(32) NOT NULL DEFAULT '',
-  preferred_channel ENUM('sms_visual', 'email_escrito', 'portal') NOT NULL DEFAULT 'sms_visual',
+  preferred_channel ENUM('sms_visual', 'email_escrito', 'portal') NOT NULL DEFAULT 'email_escrito',
   active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),

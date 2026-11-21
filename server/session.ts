@@ -2,7 +2,17 @@ import session from "express-session";
 import { MysqlSessionStore } from "./mysqlSessionStore";
 
 const SESSION_DURATION_MS = 10 * 60 * 1000;
-const sessionSecret = process.env.SESSION_SECRET?.trim() ?? "development-session-secret-value-123456";
+const developmentSessionSecret = "development-session-secret-value-123456";
+const configuredSessionSecret = process.env.SESSION_SECRET?.trim();
+
+if (
+  process.env.NODE_ENV === "production" &&
+  (!configuredSessionSecret || configuredSessionSecret === developmentSessionSecret)
+) {
+  throw new Error("SESSION_SECRET must be set to a non-development value in production");
+}
+
+const sessionSecret = configuredSessionSecret ?? developmentSessionSecret;
 
 if (sessionSecret.length < 16) {
   throw new Error("SESSION_SECRET must contain at least 16 characters");

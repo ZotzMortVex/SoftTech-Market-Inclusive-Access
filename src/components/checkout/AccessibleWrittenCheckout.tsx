@@ -57,7 +57,7 @@ export function AccessibleWrittenCheckout({
   );
   const [notificationChannel, setNotificationChannel] = useState<
     "sms_visual" | "email_escrito" | "dashboard"
-  >("sms_visual");
+  >("email_escrito");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentReturn, setPaymentReturn] = useState<{
     paymentId: string;
