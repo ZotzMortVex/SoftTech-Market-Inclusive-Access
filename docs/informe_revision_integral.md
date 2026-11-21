@@ -12,7 +12,7 @@ Repositorio: `ZotzMortVex/SoftTech-Market-Inclusive-Access`
 | Respaldo | Se confirmo `DB_HOST` local antes de crear y verificar un respaldo `mysqldump` fuera del repositorio (34.097 bytes). |
 | `npm run lint` | Aprobado (`tsc --noEmit`, codigo de salida 0). |
 | `npm test` | 59 aprobadas, 0 fallidas, 0 omitidas en la verificacion actual. |
-| `npm run build` | Aprobado. Vite advierte que el chunk principal minificado mide 800,57 kB y supera el umbral de 500 kB. |
+| `npm run build` | Aprobado. Vite advierte que el chunk principal minificado mide 800,97 kB y supera el umbral de 500 kB. |
 | Smoke tests HTTP | 61 aprobados, 0 fallidos en la ejecucion de API resumida en esta revision; no se conserva el script temporal. |
 | API y base de datos | `GET /api/health`: HTTP 200, `status=ok`, `database=connected`. Base local: 9 productos activos; existe `products.lsc_video_url`. |
 | Estado de recuperacion | `password_reset_tokens` aparece en `database/schema.sql`, pero no en la base local existente. No se modifico el esquema. |
@@ -84,6 +84,7 @@ La columna `products.lsc_video_url` existe en la base local. La base local no co
 - Se agrego la intensidad “Apagado” para destellos y su confirmacion escrita.
 - Se corrigio el reflujo al 200 % del centro de accesibilidad y se pasan sus controles flotantes al flujo del documento para que no cubran contenido.
 - La baja de clientes revoca sesiones persistidas en MySQL y las sesiones conservadas por el almacenamiento en memoria de respaldo; las pruebas cubren la revocacion selectiva.
+- Al regresar de Mercado Pago sin datos verificables, se informa el estado y se vuelve al carrito sin borrar sus productos; un pago no verificado no se presenta como pedido confirmado.
 - No se cambio el esquema de base de datos ni se instalaron/actualizaron dependencias.
 - CP-10 se actualizo a aprobado para el centro de accesibilidad en los anchos comprobados; las demas vistas al 200 % siguen pendientes.
 
@@ -102,6 +103,7 @@ No se modifico `main`, no se publico el diff de esta actualizacion, no se integr
 
 - El reflujo al 200 % se verifico en el centro de accesibilidad; falta recorrer las demas vistas en ese nivel de ampliacion.
 - Vulnerabilidades reportadas por `npm audit` pendientes de decidir/actualizar (H-04).
+- `MP_RETURN_URL` debe apuntar a un host HTTPS activo; el hostname `trycloudflare.com` mostrado en el error no resolvia por DNS. El codigo no puede reparar un dominio/tunel inexistente.
 - Recuperacion de contrasena sin SMTP probado y con tabla ausente en la base local actual.
 - No se verificaron de extremo a extremo los pagos, concurrencia, perfiles administrativos, lector de pantalla, persona sorda ni todos los anchos.
 - El chunk principal de produccion supera el umbral de advertencia de Vite.
