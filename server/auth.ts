@@ -131,7 +131,12 @@ function destroySession(request: Request): Promise<void> {
 
 export const authRouter = Router();
 
-void ensureDefaultAdmin();
+void ensureDefaultAdmin().catch((error: unknown) => {
+  console.error(
+    "Fallback administrator initialization failed:",
+    error instanceof Error ? error.message : "Unknown error",
+  );
+});
 
 export function requireAuth(
   request: Request,

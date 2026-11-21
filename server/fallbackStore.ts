@@ -50,22 +50,33 @@ export function toPublicUser(
 }
 
 export async function ensureDefaultAdmin(): Promise<void> {
-  const adminEmail = "admin@softtech.test";
+  const adminEmail = process.env.FALLBACK_ADMIN_EMAIL?.trim().toLowerCase();
+  const adminPassword = process.env.FALLBACK_ADMIN_PASSWORD;
+  if (!adminEmail || !adminPassword) return;
+
+  if (
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(adminEmail) ||
+    adminPassword.length < 8 ||
+    adminPassword.length > 128
+  ) {
+    throw new Error("Fallback administrator configuration is invalid.");
+  }
+
   if (fallbackUsersByEmail.has(adminEmail)) {
     return;
   }
 
   const admin: FallbackUser = {
-    id: "admin-fallback",
-    name: "Administrador",
+    id: randomUUID(),
+    name: process.env.FALLBACK_ADMIN_NAME?.trim() || "Administrador",
     email: adminEmail,
     role: "admin",
-    phone: "+573001112233",
-    preferredChannel: "portal",
+    phone: "",
+    preferredChannel: "email_escrito",
     active: true,
     registeredDate: new Date().toLocaleDateString("es-CO"),
     totalOrdersCount: 0,
-    passwordHash: await hashPassword("Admin123!"),
+    passwordHash: await hashPassword(adminPassword),
   };
 
   fallbackUsers.set(admin.id, admin);
