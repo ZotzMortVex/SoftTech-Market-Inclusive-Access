@@ -640,9 +640,14 @@ export default function App() {
   }, [currentUser, userRole]);
 
   const triggerFlash = useCallback(() => {
-    if (accessibilitySettings.flashIntensity === "off") return;
+    if (
+      !accessibilitySettings.opticalFlashes ||
+      accessibilitySettings.flashIntensity === "off"
+    ) {
+      return;
+    }
     setIsFlashActive(true);
-  }, [accessibilitySettings.flashIntensity]);
+  }, [accessibilitySettings.flashIntensity, accessibilitySettings.opticalFlashes]);
 
   // Global toast dispatcher
   const showToast = useCallback(

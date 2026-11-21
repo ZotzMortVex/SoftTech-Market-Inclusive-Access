@@ -27,6 +27,10 @@ import {
   MIN_FONT_SCALE,
   clampFontScale,
 } from "../utils/accessibilityScale";
+import {
+  FLASH_INTENSITY_OPTIONS,
+  getFlashIntensitySettings,
+} from "../utils/accessibilitySettings";
 
 interface AccessibilityCenterViewProps {
   settings: AccessibilitySettings;
@@ -50,9 +54,9 @@ export function AccessibilityCenterView({
     string | null
   >(null);
 
-  const showVisualNotice = (msg: string) => {
+  const showVisualNotice = (msg: string, triggerFlash = true) => {
     setActiveFeedbackNotice(msg);
-    onTriggerFlash();
+    if (triggerFlash) onTriggerFlash();
     setTimeout(() => {
       setActiveFeedbackNotice(null);
     }, 3000);
@@ -343,23 +347,19 @@ export function AccessibilityCenterView({
           </div>
 
           <div className="space-y-3 pt-2">
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { id: "soft", label: "Suave" },
-                { id: "standard", label: "Estándar" },
-                { id: "intense", label: "Vívido" },
-              ].map((fl) => (
+            <div className="grid grid-cols-4 gap-2">
+              {FLASH_INTENSITY_OPTIONS.map((fl) => (
                 <button
                   key={fl.id}
                   type="button"
                   aria-pressed={settings.flashIntensity === fl.id}
                   onClick={() => {
-                    onUpdateSettings({
-                      flashIntensity: fl.id as any,
-                      opticalFlashes: true,
-                    });
+                    onUpdateSettings(getFlashIntensitySettings(fl.id));
                     showVisualNotice(
-                      `Intensidad de destello óptico fijada en: ${fl.label}`,
+                      fl.id === "off"
+                        ? "Destellos lumínicos desactivados"
+                        : `Intensidad de destello óptico fijada en: ${fl.label}`,
+                      fl.id !== "off",
                     );
                   }}
                   className={`py-2.5 rounded-xl border text-xs font-bold transition-all text-center ${
