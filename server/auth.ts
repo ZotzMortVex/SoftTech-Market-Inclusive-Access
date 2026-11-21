@@ -6,6 +6,7 @@ import {
   type Response,
 } from "express";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
+import type { PoolConnection } from "mysql2/promise";
 import type { UserAccount } from "../src/types";
 import { database } from "./db";
 import {
@@ -22,6 +23,11 @@ import {
   isPasswordResetEmailConfigured,
   sendPasswordResetEmail,
 } from "./email";
+import {
+  deleteCustomerAccount,
+  revokeUserSessions,
+} from "./accountDeletion";
+import { mysqlSessionStore } from "./session";
 
 interface UserRow extends RowDataPacket {
   id: string;
@@ -242,19 +248,52 @@ authRouter.delete("/users/:id", requireAdmin, async (request, response) => {
     return;
   }
 
+  let connection: PoolConnection | undefined;
   try {
-    const [result] = await database.execute<ResultSetHeader>(
-      "DELETE FROM users WHERE id = ? AND role = 'user'",
-      [userId],
-    );
-    if (result.affectedRows === 0) {
+    connection = await database.getConnection();
+    const transaction = connection;
+    await transaction.beginTransaction();
+    const deleted = await deleteCustomerAccount(userId, {
+      deleteCustomer: async (targetUserId) => {
+        const [result] = await transaction.execute<ResultSetHeader>(
+          "DELETE FROM users WHERE id = ? AND role = 'user'",
+          [targetUserId],
+        );
+        return result.affectedRows > 0;
+      },
+      revokeSessions: async (targetUserId) => {
+        await revokeUserSessions(targetUserId, async (query, values) => {
+          await transaction.execute(query, values);
+        });
+        await mysqlSessionStore?.destroyFallbackSessionsForUser(targetUserId);
+      },
+    });
+
+    if (!deleted) {
+      await transaction.rollback();
       response.status(404).json({ error: "No se encontró un usuario que pueda eliminarse." });
       return;
     }
+
+    await transaction.commit();
     response.status(204).end();
   } catch (error) {
+    if (connection) {
+      try {
+        await connection.rollback();
+      } catch (rollbackError) {
+        console.error(
+          "Unable to roll back user deletion:",
+          rollbackError instanceof Error
+            ? rollbackError.message
+            : "Unknown rollback error",
+        );
+      }
+    }
     console.error("Unable to delete user from MySQL:", error);
     response.status(500).json({ error: "No se pudo eliminar el usuario." });
+  } finally {
+    connection?.release();
   }
 });
 
