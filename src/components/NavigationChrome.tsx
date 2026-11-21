@@ -349,7 +349,7 @@ export function NavigationChrome({
         inert={!isSideMenuVisible}
         onMouseEnter={() => setIsSideHovered(true)}
         onMouseLeave={handleSidePointerLeave}
-        className={`fixed bottom-0 left-0 top-0 z-[90] flex w-[min(20rem,88vw)] flex-col border-r border-cyan-700/70 bg-gradient-to-b from-[#0b3550] via-[#0a4055] to-[#0b2d40] px-5 pb-6 pt-20 text-white shadow-2xl transition-transform duration-300 ${isSideMenuVisible ? "translate-x-0" : "-translate-x-full"}`}
+        className={`navigation-side-menu fixed bottom-0 left-0 top-0 z-[90] flex w-[min(20rem,88vw)] flex-col border-r border-cyan-700/70 bg-gradient-to-b from-[#0b3550] via-[#0a4055] to-[#0b2d40] px-5 pb-6 pt-20 text-white shadow-2xl transition-transform duration-300 ${isSideMenuVisible ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="mb-6 flex items-center justify-between border-b border-white/15 pb-5">
           <BrandSymbol size={42} showText textTone="inverse" />

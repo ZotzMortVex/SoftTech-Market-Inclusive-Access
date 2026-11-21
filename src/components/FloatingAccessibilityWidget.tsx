@@ -65,7 +65,7 @@ export function FloatingAccessibilityWidget({
   const fontSizePercentage = `${settings.fontSize}%`;
 
   return (
-    <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end">
+    <div className="floating-accessibility-widget fixed bottom-5 right-5 z-[60] flex flex-col items-end">
       {/* Expanded Quick Panel */}
       {isOpen && (
         <div

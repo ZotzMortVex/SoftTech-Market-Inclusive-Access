@@ -2868,6 +2868,116 @@ html.theme-high-contrast #cart-view .cart-catalog-action * {
   transform: translate(0.25rem, -0.25rem);
 }
 
+html[data-font-scale="200"] .store-navigation-header > div {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+html[data-font-scale="200"] .store-navigation-header nav {
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+html[data-font-scale="200"] .navigation-side-menu {
+  width: min(320px, 88vw) !important;
+}
+
+html[data-font-scale="200"] #accessibility-center {
+  width: 100%;
+  min-width: 0;
+}
+
+html[data-font-scale="200"] #accessibility-center > div:first-child {
+  flex-direction: column !important;
+  align-items: flex-start;
+}
+
+html[data-font-scale="200"] #accessibility-center .grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+html[data-font-scale="200"] #accessibility-center .grid > * {
+  min-width: 0;
+}
+
+html[data-font-scale="200"] #accessibility-center > div:first-child > div {
+  width: 100%;
+  min-width: 0;
+}
+
+html[data-font-scale="200"] #accessibility-center > div:first-child > div > span:first-child {
+  max-width: 100%;
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+html[data-font-scale="200"] #accessibility-center > div:first-child h1 {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+html[data-font-scale="200"] #accessibility-center > div:first-child h1 > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+html[data-font-scale="200"] #accessibility-center .accessibility-guarantee {
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+html[data-font-scale="200"] #accessibility-center .accessibility-guarantee > div {
+  width: 100%;
+  min-width: 0;
+}
+
+html[data-font-scale="200"] .sign-language-floating,
+html[data-font-scale="200"] .floating-accessibility-widget,
+html[data-font-scale="200"] .cart-floating-trigger {
+  position: static !important;
+  align-self: flex-end;
+  margin: 0.75rem 1rem;
+}
+
+html[data-font-scale="200"] .sign-language-floating {
+  align-self: flex-start;
+}
+
+html[data-font-scale="200"] .cart-floating-count {
+  right: 0 !important;
+}
+
+html[data-font-scale="200"] .app-global-background .grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+html[data-font-scale="200"] .app-global-background .grid > * {
+  min-width: 0;
+}
+
+html[data-font-scale="200"] .accessibility-quick-trigger,
+html[data-font-scale="200"] .accessibility-quick-trigger:is(
+  :hover,
+  :focus-visible,
+  [aria-expanded="true"]
+),
+html[data-font-scale="200"] .cart-floating-trigger,
+html[data-font-scale="200"] .cart-floating-trigger:is(:hover, :focus-visible) {
+  width: 56px !important;
+  min-width: 56px !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  justify-content: center !important;
+}
+
+html[data-font-scale="200"] .accessibility-quick-trigger-label,
+html[data-font-scale="200"] .cart-floating-label {
+  display: none;
+}
+
 .theme-high-contrast .accessibility-quick-trigger:is(:hover, :focus-visible) {
   background: #ffff00 !important;
   border-color: #ffffff !important;
