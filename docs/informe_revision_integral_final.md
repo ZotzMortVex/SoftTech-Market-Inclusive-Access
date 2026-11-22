@@ -195,7 +195,7 @@ Paquetes y dependencias relacionados reportados: `body-parser`, `dompurify`, `no
 5. CP-06: probar búsqueda por texto y combinación con categoría en el catálogo; capturar resultados y estado vacío.
 6. CP-07: abrir detalle de varios productos y verificar descripción, características, precio, disponibilidad, garantía y envío.
 7. CP-08: reproducir, minimizar y mover el panel LSC; probar atajos; abrir producto sin video y comprobar texto escrito.
-8. CP-09: en el centro de accesibilidad elegir `Suave`, `Estándar`, `Intenso` y `Apagado`; agregar al carrito y comprobar destello y aviso escrito.
+8. CP-09: en el centro de accesibilidad elegir `Suave`, `Estándar`, `Vívido` y `Apagado`; agregar al carrito y comprobar destello y aviso escrito.
 9. CP-10: repetir tema claro/oscuro y texto al 200 % en catálogo, detalle, carrito y checkout a 360, 768 y 1280 px.
 10. CP-12: realizar una compra sandbox aprobada y confirmar pedido, descuento de inventario y número visible.
 11. CP-13: realizar una compra rechazada o pendiente y comprobar que no existe pedido nuevo y que el carrito conserva los productos.
