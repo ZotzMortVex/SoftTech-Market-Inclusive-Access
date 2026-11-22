@@ -17,7 +17,10 @@ import { formatCOP } from "../../utils/formatters";
 import { useToast } from "../../context/ToastContext";
 import { useSignLanguage } from "../../context/SignLanguageContext";
 import { createMercadoPagoSandboxPreference } from "../../utils/salesAnalyticsApi";
-import { parseMercadoPagoReturn } from "../../utils/mercadoPagoReturn";
+import {
+  canVerifyMercadoPagoReturn,
+  parseMercadoPagoReturn,
+} from "../../utils/mercadoPagoReturn";
 import { confirmMercadoPagoSandboxPayment } from "../../utils/ordersApi";
 
 interface AccessibleWrittenCheckoutProps {
@@ -234,29 +237,41 @@ export function AccessibleWrittenCheckout({
     if (params.get("payment_return") !== "1" || processedReturn.current) return;
     processedReturn.current = true;
 
-    const { status, paymentId, externalReference } = parseMercadoPagoReturn(
-      window.location.search,
-    );
+    const payment = parseMercadoPagoReturn(window.location.search);
     window.history.replaceState(
       {},
       "",
       `${window.location.pathname}${window.location.hash}`,
     );
 
-    if (!paymentId || !externalReference) {
-      setErrorMessage(
-        status === "pending"
-          ? "Mercado Pago dejó el pago en estado pendiente. Vuelve a intentarlo cuando se complete."
-          : status === "approved"
-            ? "Mercado Pago no devolvió los datos necesarios para verificar el pago."
-            : "El pago no fue aprobado por Mercado Pago. No se registró el pedido.",
-      );
+    if (!canVerifyMercadoPagoReturn(payment)) {
+      const message =
+        payment.status === "pending"
+          ? "El pago quedó pendiente y aún no se registró el pedido. Tus productos siguen en el carrito."
+          : payment.status === "approved"
+            ? "Mercado Pago indicó un pago aprobado, pero faltan datos para verificarlo. No vuelvas a pagar; revisa tu actividad de Mercado Pago y contacta soporte. Tu pedido no se registró y tus productos siguen en el carrito."
+            : "No se recibió una confirmación válida del pago. No se registró el pedido y tus productos siguen en el carrito. Si ves un cobro, no vuelvas a pagar y contacta soporte.";
+      showToast({
+        type: "info",
+        title: "Regresaste al carrito",
+        message,
+      });
+      onBackToCart();
       return;
     }
 
-    setPaymentReturn({ paymentId, externalReference });
-    verifyReturnedPayment(paymentId, externalReference);
-  }, [onPaymentVerified, onTriggerFlash, setInterpreterVideo, showToast]);
+    setPaymentReturn({
+      paymentId: payment.paymentId,
+      externalReference: payment.externalReference,
+    });
+    verifyReturnedPayment(payment.paymentId, payment.externalReference);
+  }, [
+    onBackToCart,
+    onPaymentVerified,
+    onTriggerFlash,
+    setInterpreterVideo,
+    showToast,
+  ]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-fadeIn pb-16 text-left">
@@ -484,12 +499,12 @@ export function AccessibleWrittenCheckout({
           </section>
 
           <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#dde3ea] shadow-xs space-y-5">
-            <h2 className="text-base font-bold text-[#1b2533] flex items-center justify-between border-b border-[#eef2f6] pb-3">
+            <h2 className="text-base font-bold text-[#1b2533] flex flex-wrap items-center justify-between gap-2 border-b border-[#eef2f6] pb-3">
               <span className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-[#2b567b]" />
                 <span>Desglose de Artículos</span>
               </span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#eef3f7] text-[#244f77]">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#eef3f7] text-[#244f77] shrink-0">
                 {cart.length} {cart.length === 1 ? "equipo" : "equipos"}
               </span>
             </h2>

@@ -25,11 +25,13 @@ const shouldUseMysqlSessionStore = Boolean(
     process.env.DB_NAME?.trim(),
 );
 
+export const mysqlSessionStore = shouldUseMysqlSessionStore
+  ? new MysqlSessionStore(SESSION_DURATION_MS)
+  : null;
+
 export const sessionMiddleware = session({
   secret: sessionSecret,
-  store: shouldUseMysqlSessionStore
-    ? new MysqlSessionStore(SESSION_DURATION_MS)
-    : new session.MemoryStore(),
+  store: mysqlSessionStore ?? new session.MemoryStore(),
   resave: false,
   saveUninitialized: false,
   rolling: true,

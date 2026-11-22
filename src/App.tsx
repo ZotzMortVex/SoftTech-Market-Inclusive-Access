@@ -441,7 +441,9 @@ export default function App() {
   }, [accessibilitySettings.contrastMode]);
 
   useEffect(() => {
-    document.documentElement.style.fontSize = `${16 * (clampFontScale(accessibilitySettings.fontSize) / 100)}px`;
+    const fontScale = clampFontScale(accessibilitySettings.fontSize);
+    document.documentElement.style.fontSize = `${16 * (fontScale / 100)}px`;
+    document.documentElement.dataset.fontScale = String(fontScale);
   }, [accessibilitySettings.fontSize]);
 
   useEffect(() => {
@@ -640,9 +642,14 @@ export default function App() {
   }, [currentUser, userRole]);
 
   const triggerFlash = useCallback(() => {
-    if (accessibilitySettings.flashIntensity === "off") return;
+    if (
+      !accessibilitySettings.opticalFlashes ||
+      accessibilitySettings.flashIntensity === "off"
+    ) {
+      return;
+    }
     setIsFlashActive(true);
-  }, [accessibilitySettings.flashIntensity]);
+  }, [accessibilitySettings.flashIntensity, accessibilitySettings.opticalFlashes]);
 
   // Global toast dispatcher
   const showToast = useCallback(

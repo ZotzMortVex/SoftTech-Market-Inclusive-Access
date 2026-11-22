@@ -125,7 +125,7 @@ export function SignLanguageInterpreter({
 
   return (
     <div
-      className={`pointer-events-none fixed ${interpreterBottomOffset} ${sideClass} z-[55]`}
+      className={`sign-language-floating pointer-events-none fixed ${interpreterBottomOffset} ${sideClass} z-[55]`}
     >
       <AnimatePresence initial={false}>
         {isMinimized ? (

@@ -28,3 +28,12 @@ export function parseMercadoPagoReturn(search: string): {
         : null,
   };
 }
+
+export function canVerifyMercadoPagoReturn(
+  payment: ReturnType<typeof parseMercadoPagoReturn>,
+): payment is ReturnType<typeof parseMercadoPagoReturn> & {
+  paymentId: string;
+  externalReference: string;
+} {
+  return Boolean(payment.paymentId && payment.externalReference);
+}

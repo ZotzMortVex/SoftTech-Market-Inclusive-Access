@@ -12,10 +12,43 @@ function asError(error: unknown): Error {
 }
 
 export class MysqlSessionStore extends Store {
-  private readonly memoryStore = new session.MemoryStore();
-
-  constructor(private readonly sessionDurationMs: number) {
+  constructor(
+    private readonly sessionDurationMs: number,
+    private readonly memoryStore = new session.MemoryStore(),
+  ) {
     super();
+  }
+
+  destroyFallbackSessionsForUser(userId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.memoryStore.all((error, sessions) => {
+        if (error) {
+          reject(asError(error));
+          return;
+        }
+
+        const sessionIds = Object.entries(sessions ?? {})
+          .filter(([, storedSession]) => storedSession.userId === userId)
+          .map(([sessionId]) => sessionId);
+
+        Promise.all(
+          sessionIds.map(
+            (sessionId) =>
+              new Promise<void>((resolveDestroy, rejectDestroy) => {
+                this.memoryStore.destroy(sessionId, (destroyError) => {
+                  if (destroyError) {
+                    rejectDestroy(asError(destroyError));
+                    return;
+                  }
+                  resolveDestroy();
+                });
+              }),
+          ),
+        )
+          .then(() => resolve())
+          .catch(reject);
+      });
+    });
   }
 
   get(
