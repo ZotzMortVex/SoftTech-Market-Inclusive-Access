@@ -3894,6 +3894,31 @@ html body .order-history-user-identity {
   line-height: 1.4;
 }
 
+@media (max-width: 420px) {
+  html[data-font-scale="200"] body .order-history-user-identity {
+    width: 100%;
+    min-width: 0;
+  }
+
+  html[data-font-scale="200"] body .order-history-catalog-action {
+    max-width: 100%;
+    width: fit-content;
+    justify-content: center;
+  }
+
+  html[data-font-scale="200"] body .order-history-catalog-action span {
+    overflow-wrap: anywhere;
+  }
+
+  html[data-font-scale="200"] body .order-history-user-identity,
+  html[data-font-scale="200"] body .order-history-user-name,
+  html[data-font-scale="200"] body .order-history-user-email,
+  html[data-font-scale="200"] body h1 {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
 html body .order-history-user-name,
 html body .order-history-user-email {
   color: #17324a !important;

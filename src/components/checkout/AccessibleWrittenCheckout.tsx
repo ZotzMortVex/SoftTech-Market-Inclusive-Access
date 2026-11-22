@@ -499,12 +499,12 @@ export function AccessibleWrittenCheckout({
           </section>
 
           <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#dde3ea] shadow-xs space-y-5">
-            <h2 className="text-base font-bold text-[#1b2533] flex items-center justify-between border-b border-[#eef2f6] pb-3">
+            <h2 className="text-base font-bold text-[#1b2533] flex flex-wrap items-center justify-between gap-2 border-b border-[#eef2f6] pb-3">
               <span className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-[#2b567b]" />
                 <span>Desglose de Artículos</span>
               </span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#eef3f7] text-[#244f77]">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#eef3f7] text-[#244f77] shrink-0">
                 {cart.length} {cart.length === 1 ? "equipo" : "equipos"}
               </span>
             </h2>
